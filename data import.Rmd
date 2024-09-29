@@ -72,3 +72,9 @@ pups_readr
 pups_base$S
 pups_readr$S
 ```
+
+
+# export data
+```{r}
+write_csv(mlb_df, "./data/mlb_subtable.csv")
+```
