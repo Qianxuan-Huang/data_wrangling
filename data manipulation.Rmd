@@ -1,0 +1,10 @@
+---
+title: "data manipulation"
+output: github_document
+---
+
+
+```{r setup, we want readr}
+library(tidyverse)
+library(readxl)
+```
