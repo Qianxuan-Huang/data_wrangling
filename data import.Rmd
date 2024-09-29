@@ -1,21 +1,59 @@
 ---
-title: "Simple document"
-output: html_document
+title: "data import"
+output: github_document
 ---
 
-I'm an R Markdown document! 
 
-# Section 1
-
-Here's a **code chunk** that samples from 
-a _normal distribution_:
-
-```{r}
-samp = rnorm(100)
-length(samp)
+```{r setup, we want readr}
+library(tidyverse)
+library(readxl)
 ```
 
-# Section 2
+# read in some data
 
-I can take the mean of the sample, too!
-The mean is `r mean(samp)`.
+Use reletive path, so people download from github can also access the dataset.
+./ means start from this github "data_wargling" folder.
+Since we don't use other function in janitor, so that we don't need to write library(janitor).
+```{r}
+litters_df = read_csv("./data/FAS_litters.csv")
+litters_df = janitor::clean_names(litters_df)
+```
+
+# take a look at dataset
+
+whole dataset:
+```{r}
+litters_df
+```
+first 6 rows:
+```{r}
+head(litters_df)
+```
+last few rows:
+```{r}
+tail(litters_df)
+```
+few statistics data:
+```{r}
+skimr::skim(litters_df)
+```
+
+# options to read_csv
+skip=10 means skipping 10 rows. col.names=FALSE is to make up colum names as x1 x2 x3... rather than the origenal colum name
+```{r}
+?read_csv
+```
+
+# read excel file
+```{r}
+mlb_df = read_excel("./data/mlb11.xlsx", range = "A1:F7")
+mlb_df
+```
+
+# read SAS file
+```{r}
+library(haven)
+pulse_df = read_sas("./data/public_pulse_data.sas7bdat")
+head(pulse_df, 5)
+```
+
