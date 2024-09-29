@@ -56,4 +56,19 @@ library(haven)
 pulse_df = read_sas("./data/public_pulse_data.sas7bdat")
 head(pulse_df, 5)
 ```
+#Comparison whith Base R
+###don't use 'read.csv'
 
+```{r}
+pups_base = read.csv("./data/FAS_pups.csv")
+pups_readr = read_csv("./data/FAS_pups.csv")
+
+View(pups_base)
+View(pups_readr)
+
+pups_base
+pups_readr
+
+pups_base$S
+pups_readr$S
+```
