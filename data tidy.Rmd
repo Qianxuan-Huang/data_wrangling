@@ -1,0 +1,42 @@
+---
+title: "data tidy"
+output: github_document
+---
+
+## load in the PULSE data in sas format
+```{r setup, we want readr}
+library(tidyverse)
+pulse_data = 
+  haven::read_sas("./data/public_pulse_data.sas7bdat") |>
+  janitor::clean_names()
+```
+
+## make the wide table a long table
+Put column name "bdi_score_bl:bdi_score_12m" into "visit", value in these colum into "bdi". And delete all "bdi_score_" in every "visit" value.
+```{r}
+pulse_data_tidy = pulse_data %>%
+  pivot_longer(
+    bdi_score_bl:bdi_score_12m,
+    names_to = "visit", 
+    names_prefix = "bdi_score_",
+    values_to = "bdi"
+    )
+
+pulse_data_tidy
+```
+
+Combine previous steps together, and add mutate:
+```{r}
+pulse_data = 
+  haven::read_sas("./data/public_pulse_data.sas7bdat") |>
+  janitor::clean_names() %>%
+  pivot_longer(
+    bdi_score_bl:bdi_score_12m,
+    names_to = "visit", 
+    names_prefix = "bdi_score_",
+    values_to = "bdi"
+    ) %>%
+  relocate(id, visit) %>%
+  mutate(visit = recode(visit, "bl" = "00m"))
+```
+
